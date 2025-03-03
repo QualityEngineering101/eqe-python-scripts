@@ -18,7 +18,7 @@ This project provides examples of using python with existing packages to acceler
   </tr>
   <tr>
     <td valign="top" text-align:left;>QEWebDriverHelper</td>
-    <td valign="top"; text-align:left;>QEWebDriverHelper is a Python-based utility that simplifies browser automation using Selenium WebDriver. It automatically detects installed browsers, manages WebDriver binaries, and supports both headless and headed modes.<br><br> As a helper module, it abstracts the setup of Selenium WebDriver, enabling seamless browser automation by ensuring:<br><br>
+    <td valign="top"; text-align:left;><a href="https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/selenium/src/EQEUtils/QEWebDriverHelper.py">QEWebDriverHelper</a> is a Python-based utility that simplifies browser automation using Selenium WebDriver. It automatically detects installed browsers, manages WebDriver binaries, and supports both headless and headed modes.<br><br> As a helper module, it abstracts the setup of Selenium WebDriver, enabling seamless browser automation by ensuring:<br><br>
     <ul valign="top">
       <li>WebDrivers are always up to date.</li>
       <li>Installed browsers are automatically detected</li>
