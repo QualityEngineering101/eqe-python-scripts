@@ -1,3 +1,32 @@
+"""
+Automated Web UI Testing for OrangeHRM Demo Using Selenium and QEWebDriverHelper.
+
+This script:
+- Sets up Selenium WebDriver for Chrome, Edge, and Firefox using `QEWebDriverHelper`.
+- Navigates to the OrangeHRM login page (`https://opensource-demo.orangehrmlive.com/web/index.php/auth/login`).
+- Automates the login process and verifies the presence of the "Dashboard" page.
+- Executes the test in **headless mode** for all three browsers.
+
+Dependencies:
+- `selenium`
+- `EQEUtils.QEWebDriverHelper`
+- WebDriver binaries (managed via `webdriver-manager`)
+
+Functions:
+    execute_test(driver):
+        Performs the login automation and verifies the expected page title.
+
+Example Usage:
+    Run the script directly to execute the test on Chrome, Edge, and Firefox.
+
+Raises:
+    ImportError: If `QEWebDriverHelper` is not found in the system path.
+    selenium.common.exceptions.NoSuchElementException: If elements are not found during execution.
+
+Notes:
+- The **OrangeHRM demo site** is maintained by **SDET QA (YouTube)**.
+- Debugging information is printed to validate the correct Python path.
+"""
 import sys, os, time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 print (f"Python Path: {sys.path}") # Debugging to validate correct path
