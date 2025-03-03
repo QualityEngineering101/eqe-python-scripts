@@ -41,7 +41,7 @@ This project provides examples of using python with existing packages to acceler
     </td>
   </tr>
   <tr>
-    <td valign="top">browser_tester</td>
+    <td valign="top"><a href="https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/selenium/src/browser_tester.py">browser_tester</a></td>
     <td valign="top">A demonstration script that leverages QEWebDriverHelper to: <br><br>
       <ul>
         <li>Launch Chrome, Edge, and Firefox.</li>
