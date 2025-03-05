@@ -1,0 +1,14 @@
+{
+    "name": "Python: Behave",
+    "type": "python",
+    "request": "launch",
+    "module": "behave",
+    "console": "integratedTerminal",
+    "args": [
+        "--no-capture",
+        "--no-capture-stderr",
+        "--no-skipped",
+        "${file}",
+        "--tags=${selectedText}"
+    ]
+}
