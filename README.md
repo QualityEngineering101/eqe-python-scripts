@@ -38,6 +38,7 @@ This project provides examples of using python with existing packages to acceler
         <li>Python>=3.9
         <li>selenium=4.29.0</li>
         <li>webdriver-manager=4.0.2</li>
+      </ul>
     </td>
   </tr>
   <tr>
@@ -69,6 +70,7 @@ This project provides examples of using python with existing packages to acceler
       </ul>
     </td>
   </tr>
+</table>
         
 ### Behave
 
@@ -115,11 +117,7 @@ This project provides examples of using python with existing packages to acceler
         <li>Uses various WebDriverWait conditions to demonstrate how to implement them</li>
       </ul>
     </td>
-    <td valign="top">xxx<br><br>
-      <uL>
-        <li></li>
-        <li></li>
-      </uL>
+    <td valign="top"> <br><br>
     </td>
     <td valign="top">
       <ul>
@@ -131,6 +129,21 @@ This project provides examples of using python with existing packages to acceler
       </ul>
     </td>
   </tr>
+  <tr>
+    <td valign="top"><a href="https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/behave/features/environment.py">environment.py</a></td>
+    <td valign="top">Enables setup and tear down functions required across all tests, features, scenarios, or steps.</td>
+    <td valign="top"> <br><br>
+    </td>
+    <td valign="top">
+      <ul>
+        <li>Behave=1.2.6</li>
+        <li>assertpy=1.1</li>
+        <li>selenium=4.29.0</li>
+        <li>webdriver-manager=4.0.2</li>
+        <li>urllib3==2.3.0</li>
+      </ul>
+    </td>
+  </tr>      
 </table>
 
 
