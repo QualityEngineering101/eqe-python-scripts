@@ -45,6 +45,7 @@ def before_all(context):
     context.driver = webdriver.Chrome(options=options)
     context.driver.implicitly_wait(5)
     context.driver.get(site_url)
+    context.driver.maximize_window()
     WebDriverWait(context.driver, 10).until(
         lambda driver: driver.execute_script("return document.readyState") == "complete"
     )
@@ -67,5 +68,6 @@ def before_all(context):
 
 def after_all(context):
     if context.driver:
+        context.driver.delete_all_cookies()
         context.driver.quit()
         context.driver = None

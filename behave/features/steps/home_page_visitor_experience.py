@@ -1,19 +1,44 @@
 from assertpy import assert_that
-from behave import given, then
+from behave import given, then, when
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 from urllib.parse import urlparse
 import time
 
 
+def get_required_field_label(context, placeholder):
+    return WebDriverWait(context.driver, 15).until(
+        EC.visibility_of_element_located(
+            (
+                By.XPATH,
+                f"//input[@placeholder='{placeholder}']/ancestor::div/following-sibling::span",
+            )
+        )
+    )
+
+
+def get_invalid_credentials_label(context):
+    # Wait for the error message container (div with <i> and <p>)
+    error_message_element = WebDriverWait(context.driver, 30).until(
+        EC.presence_of_element_located(
+            (By.XPATH, "//div[contains(@class, 'oxd-alert-content--error')]//p")
+        )
+    )
+
+    return error_message_element.text
+
+
 @given("I am on the home page")
-def step_impl(context):
+def on_home_page(context):
     assert_that(context.driver.current_url).is_equal_to(
         "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
     )
 
 
-@then("I should see the login form containing fields for username and password")
-def step_impl(context):
+@then("I should see the login form with fields")
+def validate_home_page_fields_elements(context):
     try:
         # Get form components for validation
         login_form = context.driver.find_element(By.XPATH, "//form[@class='oxd-form']")
@@ -30,7 +55,7 @@ def step_impl(context):
         )
 
         password_label = context.driver.find_element(
-            By.XPATH, "//label[normalize-space()='Password']"
+            By.XPATH, "//label[contains(text(),'Password')]"
         ).text
 
         password_field = context.driver.find_element(
@@ -79,8 +104,8 @@ def step_impl(context):
     ).is_true()
 
 
-@then('I should see a "Login" button')
-def step_impl(context):
+@then("I should see a Login button")
+def validate_home_page_fields_login_button(context):
     try:
         # Get web element for validation
         submit_button = context.driver.find_element(
@@ -107,7 +132,7 @@ def step_impl(context):
 
 
 @then('I should see a "Forgot your password?" link')
-def step_impl(context):
+def validate_home_page_fields_forgot_link(context):
     # Get web element for validation
     try:
         no_exception = True
@@ -138,7 +163,7 @@ def step_impl(context):
 
 
 @then('I should see the "OrangeHRM" logo')
-def step_impl(context):
+def validate_home_page_logo(context):
     try:
         logo = context.driver.find_element(By.XPATH, "//img[@alt='company-branding']")
         no_exception = True
@@ -170,7 +195,7 @@ def step_impl(context):
 
 
 @then("I should see the application title")
-def step_impl(context):
+def validate_home_page_app_title(context):
     try:
         application_title = context.driver.find_element(
             By.XPATH, "//p[normalize-space()='OrangeHRM OS 5.7']"
@@ -189,8 +214,8 @@ def step_impl(context):
     ).is_equal_to("OrangeHRM OS 5.7")
 
 
-@then("I should see links to OrangeHRM's social media pages")
-def step_impl(context):
+@then("I should see OrangeHRM social media links")
+def validate_home_page_socmed_links(context):
     try:
         social_media_pages_footer = context.driver.find_element(
             By.XPATH, "//div[@class='orangehrm-login-footer-sm']"
@@ -209,8 +234,8 @@ def step_impl(context):
     ).is_not_none()
 
 
-@then("The links should include LinkedIn, Facebook, and Twitter")
-def step_impl(context):
+@then("The links should include LinkedIn, Facebook, Twitter, and YouTube")
+def validate_home_page_socmed_link_list(context):
     try:
         # Find all social media links
         social_media_elements = context.driver.find_elements(
@@ -263,11 +288,200 @@ def step_impl(context):
     }
     for index, link in enumerate(social_media_links):
         parsed_url = urlparse(link)
-        domain = str(parsed_url.netloc.strip())  # e.g. www.linkedin.com
-        expected_domains_list = [str(d).strip() for d in expected_domains]
-        print(
-            f"Checking with assert_that() after casting: {domain} in {expected_domains_list}"
-        )
-        assert_that(domain).described_as(
+        domain = parsed_url.netloc.strip()  # e.g. www.linkedin.com
+        assert_that(expected_domains).described_as(
             f"Social media link {index + 1} should be from an expected domain"
-        ).is_in(list(expected_domains))
+        ).contains(domain)
+
+
+@when("I do not enter a username")
+def home_page_set_username_blank(context):
+    try:
+        # Locate and clear the username field
+        username_field = context.driver.find_element(
+            By.XPATH, "//input[@placeholder='Username']"
+        )
+        username_field.send_keys(Keys.CONTROL + "a")
+        username_field.send_keys(Keys.DELETE)
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        assert_that(no_exception).described_as(
+            "No exceptions were found when clearing the username field"
+        ).is_true()
+
+
+@when("I do not enter a password")
+def home_page_set_password_blank(context):
+    try:
+        # Locate and clear the Password field
+        password_field = context.driver.find_element(
+            By.XPATH, "//input[@placeholder='Password']"
+        )
+        password_field.send_keys(Keys.CONTROL + "a")
+        password_field.send_keys(Keys.DELETE)
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        assert_that(no_exception).described_as(
+            "No exceptions were found when clearing the Password field"
+        ).is_true()
+
+
+@when("I enter a valid username")
+def home_page_set_username_valid(context):
+    try:
+        # Locate and clear the username field
+        context.driver.find_element(
+            By.XPATH, "//input[@placeholder='Username']"
+        ).send_keys("Admin")
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        assert_that(no_exception).described_as(
+            "No exceptions were found when entering values in the Username field "
+        ).is_true()
+
+
+@when("I enter a valid password")
+def home_page_set_password_valid(context):
+    try:
+        # Locate and clear the Password field
+        context.driver.find_element(
+            By.XPATH, "//input[@placeholder='Password']"
+        ).send_keys("admin123")
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        assert_that(no_exception).described_as(
+            "No exceptions were found when entering values in the Password field "
+        ).is_true()
+
+
+@when("I click the Login button")
+def home_page_click_login_button(context):
+    try:
+        # Click Login button without credentials to be sure required fields are being displayed
+        context.driver.find_element(By.XPATH, "//button[@type='submit']").click()
+        context.login_pressed = True
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        context.Login_pressed = False
+        print(f"Unexpected exception: {e}")
+
+        # Validations that there were no exceptions when finding the login button
+        assert_that(no_exception).described_as(
+            "No exceptions were found for the Login button"
+        ).is_true()
+
+
+@then("I should see Username is Required")
+def validate_home_page_username_required_field_label(context):
+    try:
+        username_required_message = get_required_field_label(context, "Username").text
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        # Required field validations - no Username
+        assert_that(no_exception).described_as(
+            "No exceptions were found locating the required username field labels"
+        ).is_true()
+        assert_that(username_required_message).described_as(
+            "Username should display Required when empty and Login button is pushed"
+        ).is_equal_to("Required")
+
+
+@then("I should see Password is Required")
+def validate_home_page_password_required_field_label(context):
+    try:
+        password_required_message = get_required_field_label(context, "Password").text
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        # Required field validations - no Password entered but login clicked
+        assert_that(no_exception).described_as(
+            "No exceptions were found for the Password required field label"
+        ).is_true()
+        assert_that(password_required_message).described_as(
+            "Required should be displayed for missing passwords"
+        ).is_equal_to("Required")
+
+
+@when("I enter an invalid username")
+def home_page_set_invalid_username(context):
+    try:
+        # Locate and clear the Password field
+        context.driver.find_element(
+            By.XPATH, "//input[@placeholder='Password']"
+        ).send_keys("Uname")
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        assert_that(no_exception).described_as(
+            "No exceptions were found for the Password field "
+        ).is_true()
+
+
+@when("I enter an invalid password")
+def home_page_set_invalid_password(context):
+    try:
+        # Locate and clear the Password field
+        context.driver.find_element(
+            By.XPATH, "//input[@placeholder='Password']"
+        ).send_keys("Invalid")
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        assert_that(no_exception).described_as(
+            "No exceptions were found for the Password field "
+        ).is_true()
+
+
+@then("I should see an invalid credentials error message")
+def validate_home_page_invalid_credentials_messsage(context):
+    try:
+        invalid_credentials_label = get_invalid_credentials_label(context)
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+        assert_that(no_exception).described_as(
+            "No exceptions were found locating invalid credentials message"
+        ).is_true()
+        assert_that(invalid_credentials_label).described_as(
+            "I should find 'Invalid Credientials' error message"
+        ).is_equal_to("Invalid credentials")
+
+
+@then("I should not see Username is Required")
+def step_impl(context):
+    pass
+
+
+@then("I should not see Password is Required")
+def step_impl(context):
+    pass
+
+
+@when('I click on the "Forgot your password?" link')
+def step_impl(context):
+    pass
+
+
+@then("I should be taken to the password recovery page")
+def step_impl(context):
+    pass
+
+
+@then("I should be logged in")
+def step_impl(context):
+    pass
