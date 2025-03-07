@@ -106,30 +106,28 @@ This project provides examples of using python with existing packages to acceler
   </tr>
   <tr>
     <td valign="top"><a href="https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/behave/features/steps/home_page_visitor_experience.py">Home_page_visitor_experience.py</a></td>
-    <td valign="top">The step implementations associated with Given-When-Then in the Home_page_visitor_experience.feature file. <br><br>
+    <td valign="top">The step implementations associated with Given-When-Then in the Home_page_visitor_experience.feature file. Steps in the feature file marked as 'and' or 'but' take on the decorator associated with its parent.<br><br>
       <ul>
-        <li>Launch Chrome, Edge, and Firefox.</li>
-        <li>Navigate to a sample login page (OrangeHRM demo site).</li>
-        <li>Automate login and verify the dashboard page.</li>
-        <li>Print test results based on expected vs. actual outcomes.</li>
+        <li>Decorator tags highlight the feature file action or validation</li>
+        <li>Each step has unique naming to help in debugging and to better understand the code</li>
+        <li>Uses Assert_that to validate the results of each verification point</li>
+        <li>Represents various ways of identifying web elements by XPATH including Axes</li>
+        <li>Uses various WebDriverWait conditions to demonstrate how to implement them</li>
       </ul>
     </td>
-    <td valign="top">Demonstrates how to import and use QEWebDriverHelper to create three browsers, find and interact with web elements using one set of code, and publish the results.<br><br>
+    <td valign="top">xxx<br><br>
       <uL>
-        <li>Demonstrates QEWebDriverHelper in Action: Provides a real-world example of how to use QEWebDriverHelpher.py to showcase cross-browser automation without needing manual setup</li>
-        <li>Validates Cross-Browser Compatibility: Runs the same test across Chrome, Edge, and Firefox to detect inconsistencies and helps ensure web applications work consistently across different browsers</li>
-        <li>Automates Login and Functional Testing: Logs into the OrangeHRM demo site and verifies successful authentication by simulating user interactions (typing credentials, clicking buttons)</li>
-        <li>Supports Headless Execution for Faster Testing: Runs in headless mode, reducing resource consumption and execution time, making it ideal for CI/CD pipelines and automated regression. Also supports "Headed" execution for debugging.</li>
-        <li>Provides Clear Pass/Fail Test Results: Compares expected resumes to actual results and prints results in an easy-to-read format enabling quick detection of test failures without requiring manual inspection</li>
-        <li>Enhances Dubugging with Logging and Error Handling: Prints browser detection results and execution steps, capturing errors when elements are not found to prevent silent failures </li>
-        <li>Saves Time and Reduces Manual Effort: Eliminates the need to write additional or redudant code while configuring multiple browsers. Enables the creation of a single test with consistent test steps across all browsers.</li>
+        <li></li>
+        <li></li>
       </uL>
     </td>
     <td valign="top">
       <ul>
-        <li>Python>=3.9</li>
+        <li>Behave=1.2.6</li>
+        <li>assertpy=1.1</li>
         <li>selenium=4.29.0</li>
         <li>webdriver-manager=4.0.2</li>
+        <li>urllib3==2.3.0</li>
       </ul>
     </td>
   </tr>
