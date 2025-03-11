@@ -1,5 +1,6 @@
 Feature: Home Page Visitor Experience
-  As a visitor, I want to view and interact with the home page, So that I can understand what the site offers before logging in.
+  As a visitor, I want to view and interact with the home page, 
+  So that I can understand what the site offers before logging in.
 
   Background:
     Given I am on the home page
@@ -17,42 +18,41 @@ Feature: Home Page Visitor Experience
     Then I should see OrangeHRM social media links
     And The links should include LinkedIn, Facebook, Twitter, and YouTube
 
-  Scenario: Visitor should see an error when trying to log in with empty credentials
+  Scenario: Login without Username and Password
     When I do not enter a username
     And I do not enter a password
     And I click the Login button
     Then I should see Password is Required 
     And I should see Username is Required
 
-  Scenario: Visitor should see an error when trying to log in without entering a username
+  Scenario: Login without username results in error
     When I enter a valid password
     And I do not enter a username
     And I click the Login button
     Then I should see Username is Required
     And I should not see Password is Required
 
-  Scenario: Visitor should see an error when trying to log in without entering a password
+  Scenario: Login without password results in error
     When I enter a valid username
     And I do not enter a password
     And I click the Login button
     Then I should see Password is Required
     And I should not see Username is Required
 
-  Scenario: Visitor should see an error when entering invalid credentials
+  Scenario: Login with invalid username
     When I enter an invalid username
     And I enter a valid password
     And I click the Login button
     Then I should see an invalid credentials error message
   
-  Scenario: Visitor should see an error when entering invalid credentials
+  Scenario: Login with invalid password
     When I enter a valid username
     And I enter an invalid password
     And I click the Login button
     Then I should see an invalid credentials error message
 
-  Scenario: Visitor should be able to navigate to the password recovery page
+  Scenario: Visitor navigated to password recovery page
     When I click on the "Forgot your password?" link
     Then I should be taken to the password recovery page
-
-    
-  
+    When I cancel Reset Password
+    Then I am on the home page

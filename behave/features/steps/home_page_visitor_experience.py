@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException
 from urllib.parse import urlparse
 import time
 
@@ -19,6 +20,21 @@ def get_required_field_label(context, placeholder):
     )
 
 
+def required_field_should_not_exist(content, placeholder):
+    # Validates that the required field label does NOT appear when it shouldn't
+    try:
+        WebDriverWait(content.driver, 5).until(
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    f"//input[@placeholder='{placeholder}']/ancestor::div/following-sibling::span",
+                )
+            )
+        )
+    except TimeoutException:
+        pass
+
+
 def get_invalid_credentials_label(context):
     # Wait for the error message container (div with <i> and <p>)
     error_message_element = WebDriverWait(context.driver, 30).until(
@@ -30,8 +46,68 @@ def get_invalid_credentials_label(context):
     return error_message_element.text
 
 
-@given("I am on the home page")
+def on_reset_password_page(context):
+    try:
+        WebDriverWait(context.driver, 30).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//h6[normalize-space()='Reset Password']")
+            )
+        )
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Undefined exception: {e}")
+
+    page_url = context.driver.current_url
+    assert_that(no_exception).described_as(
+        "No exception found looking for Password Page"
+    ).is_true()
+    assert_that(page_url).described_as("Verify on Password Reset Page").ends_with(
+        "requestPasswordResetCode"
+    )
+    return no_exception
+
+
+def on_dashboard_page(context):
+    try:
+        WebDriverWait(context.driver, 30).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//h6[normalize-space()='Dashboard']")
+            )
+        )
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Undefined exception: {e}")
+
+    page_url = context.driver.current_url
+    assert_that(no_exception).described_as(
+        "No exceptions found looking for Dashboard Page"
+    ).is_true()
+    assert_that(page_url).described_as("Verify on Dashboard Page").contains("dashboard")
+    return no_exception
+
+
 def on_home_page(context):
+    try:
+        WebDriverWait(context.driver, 10).until(
+            lambda driver: driver.execute_script("return document.readyState")
+            == "complete"
+        )
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Undefined exception: {e}")
+
+    page_url = context.driver.current_url
+    assert_that(no_exception).described_as(
+        "No exceptions found looking for Home Page"
+    ).is_true()
+    assert_that(page_url).described_as("Verify on Home Page").contains("login")
+
+
+@given("I am on the home page")
+def validate_on_home_page(context):
     assert_that(context.driver.current_url).is_equal_to(
         "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
     )
@@ -307,9 +383,9 @@ def home_page_set_username_blank(context):
     except Exception as e:
         no_exception = False
         print(f"Unexpected exception: {e}")
-        assert_that(no_exception).described_as(
-            "No exceptions were found when clearing the username field"
-        ).is_true()
+    assert_that(no_exception).described_as(
+        "No exceptions were found when clearing the username field"
+    ).is_true()
 
 
 @when("I do not enter a password")
@@ -325,9 +401,9 @@ def home_page_set_password_blank(context):
     except Exception as e:
         no_exception = False
         print(f"Unexpected exception: {e}")
-        assert_that(no_exception).described_as(
-            "No exceptions were found when clearing the Password field"
-        ).is_true()
+    assert_that(no_exception).described_as(
+        "No exceptions were found when clearing the Password field"
+    ).is_true()
 
 
 @when("I enter a valid username")
@@ -341,9 +417,9 @@ def home_page_set_username_valid(context):
     except Exception as e:
         no_exception = False
         print(f"Unexpected exception: {e}")
-        assert_that(no_exception).described_as(
-            "No exceptions were found when entering values in the Username field "
-        ).is_true()
+    assert_that(no_exception).described_as(
+        "No exceptions were found when entering values in the Username field "
+    ).is_true()
 
 
 @when("I enter a valid password")
@@ -357,9 +433,9 @@ def home_page_set_password_valid(context):
     except Exception as e:
         no_exception = False
         print(f"Unexpected exception: {e}")
-        assert_that(no_exception).described_as(
-            "No exceptions were found when entering values in the Password field "
-        ).is_true()
+    assert_that(no_exception).described_as(
+        "No exceptions were found when entering values in the Password field "
+    ).is_true()
 
 
 @when("I click the Login button")
@@ -375,9 +451,9 @@ def home_page_click_login_button(context):
         print(f"Unexpected exception: {e}")
 
         # Validations that there were no exceptions when finding the login button
-        assert_that(no_exception).described_as(
-            "No exceptions were found for the Login button"
-        ).is_true()
+    assert_that(no_exception).described_as(
+        "No exceptions were found for the Login button"
+    ).is_true()
 
 
 @then("I should see Username is Required")
@@ -389,12 +465,12 @@ def validate_home_page_username_required_field_label(context):
         no_exception = False
         print(f"Unexpected exception: {e}")
         # Required field validations - no Username
-        assert_that(no_exception).described_as(
-            "No exceptions were found locating the required username field labels"
-        ).is_true()
-        assert_that(username_required_message).described_as(
-            "Username should display Required when empty and Login button is pushed"
-        ).is_equal_to("Required")
+    assert_that(no_exception).described_as(
+        "No exceptions were found locating the required username field labels"
+    ).is_true()
+    assert_that(username_required_message).described_as(
+        "Username should display Required when empty and Login button is pushed"
+    ).is_equal_to("Required")
 
 
 @then("I should see Password is Required")
@@ -425,9 +501,9 @@ def home_page_set_invalid_username(context):
     except Exception as e:
         no_exception = False
         print(f"Unexpected exception: {e}")
-        assert_that(no_exception).described_as(
-            "No exceptions were found for the Password field "
-        ).is_true()
+    assert_that(no_exception).described_as(
+        "No exceptions were found for the Password field "
+    ).is_true()
 
 
 @when("I enter an invalid password")
@@ -441,9 +517,9 @@ def home_page_set_invalid_password(context):
     except Exception as e:
         no_exception = False
         print(f"Unexpected exception: {e}")
-        assert_that(no_exception).described_as(
-            "No exceptions were found for the Password field "
-        ).is_true()
+    assert_that(no_exception).described_as(
+        "No exceptions were found for the Password field "
+    ).is_true()
 
 
 @then("I should see an invalid credentials error message")
@@ -454,34 +530,96 @@ def validate_home_page_invalid_credentials_messsage(context):
     except Exception as e:
         no_exception = False
         print(f"Unexpected exception: {e}")
-        assert_that(no_exception).described_as(
-            "No exceptions were found locating invalid credentials message"
-        ).is_true()
-        assert_that(invalid_credentials_label).described_as(
-            "I should find 'Invalid Credientials' error message"
-        ).is_equal_to("Invalid credentials")
+    assert_that(no_exception).described_as(
+        "No exceptions were found locating invalid credentials message"
+    ).is_true()
+    assert_that(invalid_credentials_label).described_as(
+        "I should find 'Invalid Credientials' error message"
+    ).is_equal_to("Invalid credentials")
 
 
 @then("I should not see Username is Required")
-def step_impl(context):
-    pass
+def validate_home_page_no_required_field(context):
+    does_required_field_label_exist = required_field_should_not_exist(
+        context, "Username"
+    )
+    assert_that(does_required_field_label_exist).described_as(
+        "Verify required field label does not appear"
+    ).is_none()
 
 
 @then("I should not see Password is Required")
 def step_impl(context):
-    pass
+    does_required_field_label_exist = required_field_should_not_exist(
+        context, "Password"
+    )
+    assert_that(does_required_field_label_exist).described_as(
+        "Verify required field label does not appear"
+    ).is_none()
 
 
 @when('I click on the "Forgot your password?" link')
-def step_impl(context):
-    pass
+def home_page_click_forgot_password(context):
+    try:
+        no_exception = True
+        context.driver.find_element(
+            By.XPATH, "//p[contains(normalize-space(),'Forgot your password?')]"
+        ).click()
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+
+    assert_that(no_exception).described_as(
+        "No exceptions were found locating invalid credentials message"
+    ).is_true()
 
 
 @then("I should be taken to the password recovery page")
-def step_impl(context):
-    pass
+def validate_on_reset_password_page(context):
+    try:
+        no_exception = True
+        on_reset_pwd_page = on_reset_password_page(context)
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+
+    assert_that(no_exception).described_as(
+        "No exceptions were found locating invalid credentials message"
+    ).is_true()
+    assert_that(on_reset_pwd_page).described_as("Found Reset Password Page").is_true()
 
 
 @then("I should be logged in")
-def step_impl(context):
-    pass
+def validate_on_dashboard_page(context):
+    try:
+        no_exception = True
+        on_dashbrd_page = on_dashboard_page(context)
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+
+    assert_that(no_exception).described_as(
+        "No exceptions were found locating invalid credentials message"
+    ).is_true()
+    assert_that(on_dashbrd_page).described_as("Found Reset Password Page").is_true()
+
+
+@when("I cancel Reset Password")
+def cancel_reset_password(context):
+    try:
+        context.driver.find_element(
+            By.XPATH, "//button[normalize-space()='Cancel']"
+        ).click()
+        no_exception = True
+    except Exception as e:
+        no_exception = False
+        print(f"Unexpected exception: {e}")
+    assert_that(no_exception).described_as(
+        "No exception found canceling button"
+    ).is_true()
+    on_home_page(context)
+
+
+@then("I am on the home page")
+def then_home_page(context):
+    on_home_page(context)
