@@ -2,6 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+
+
 import requests
 import time
 import sys
@@ -38,14 +43,44 @@ def before_all(context):
         print(f"ERROR: {site_url} is unavailable. Aborting tests.")
         sys.exit(1)  # Cleanly exit without launching selenium
 
-    options = webdriver.ChromeOptions()
-    options.add_argument("--log-level=3")  # Suppress DevTools & SSL errors
-    options.add_argument("--ignore-certificate-errors")
-    options.add_argument("--disable-dev-shm-usage")
-    context.driver = webdriver.Chrome(options=options)
+    browser = context.config.userdata.get("browser", "chrome").lower()
+    headless = context.config.userdata.get("headless", "false").lower() == "true"
+
+    if browser == "chrome":
+        options = ChromeOptions()
+        if headless:
+            options.add_argument("--headless")
+            options.add_argument("--window-size=1920,1080")
+        options.add_argument("--log-level=3")  # Suppress DevTools & SSL errors
+        options.add_argument("--ignore-certificate-errors")
+        options.add_argument("--disable-dev-shm-usage")
+        context.driver = webdriver.Chrome(options=options)
+    elif browser == "edge":
+        options = EdgeOptions()
+        if headless:
+            options.add_argument("--headless=new")
+            options.add_argument("--window-size=1920,1080")
+        options.add_argument("--log-level=3")  # Suppress DevTools & SSL errors
+        options.add_argument("--ignore-certificate-errors")
+        options.add_argument("--disable-dev-shm-usage")
+        context.driver = webdriver.Edge(options=options)
+    elif browser == "firefox":
+        options = FirefoxOptions()
+        if headless:
+            options.add_argument("--headless")
+            options.add_argument("--width=1920")
+            options.add_argument("--height-1080")
+        options.add_argument("--log-level=3")  # Suppress DevTools & SSL errors
+        options.add_argument("--ignore-certificate-errors")
+        options.add_argument("--disable-dev-shm-usage")
+        context.driver = webdriver.Firefox(options=options)
+    else:
+        print(f"Unsupported browser: {browser}")
+        sys.exit(1)
+
+    context.driver.maximize_window()
     context.driver.implicitly_wait(5)
     context.driver.get(site_url)
-    context.driver.maximize_window()
     WebDriverWait(context.driver, 10).until(
         lambda driver: driver.execute_script("return document.readyState") == "complete"
     )
