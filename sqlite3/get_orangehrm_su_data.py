@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from typing import Any
 
 HRM_URL = "https://opensource-demo.orangehrmlive.com"
 USERNAME = "Admin"
@@ -82,7 +83,7 @@ def navigate_to_users():
     users_menu.click()
 
 
-def extract_table_data():
+def extract_table_data() -> list[dict[str, Any]]:
     # Find the column headers and users
     column_headers = driver.find_elements(
         By.XPATH,
@@ -95,7 +96,7 @@ def extract_table_data():
 
     # Extract column headers (indexes 1 to 4)
     headers = [
-        column_headers[i].text.strip() for i in range(1, min(5, len(column_headers)))
+        column_headers[i].text.strip().replace(" ","_") for i in range(1, min(5, len(column_headers)))
     ]
 
     # Extract data cells and organize into rows
@@ -113,17 +114,3 @@ def extract_table_data():
 
     # Convert into a list of dictionaries
     return [dict(zip(headers, row)) for row in rows]
-
-
-try:
-    login()
-    navigate_to_users()
-    table_dict = extract_table_data()
-    # Print the dictionary for verification
-    # TODO Will move to DB once DB functions are done
-    for row in table_dict:
-        print(row)
-except Exception as e:
-    print(f"Unexpected exception: {e}")
-finally:
-    driver.quit()
