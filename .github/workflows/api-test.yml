@@ -22,15 +22,13 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
+        working-directory: fastAPI
         run: |
-          working-directory: fastAPI
           python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt
 
       - name: Run API tests
+        working-directory: fastAPI
         run: |
-          working-directory: fastAPI
-          source venv/bin/activate
-          pytest tests/ --disable-warnings --maxfail=5
+          ./venv/bin/python -m pytest tests/ --disable-warnings --maxfail=5
