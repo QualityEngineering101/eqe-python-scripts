@@ -28,6 +28,9 @@ jobs:
           pip install --upgrade pip
           pip install -r fastAPI/requirements.txt
 
+      - name: Check working directory
+        run: pwd && ls -l
+        
       - name: Run API tests
         run: |
           source venv/bin/activate
