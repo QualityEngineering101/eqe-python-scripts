@@ -31,4 +31,5 @@ jobs:
       - name: Run API tests
         run: |
           source venv/bin/activate
+          cd fastAPI
           pytest fastAPI/tests/ --disable-warnings --maxfail=5
