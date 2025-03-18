@@ -53,3 +53,16 @@ Demonstrates creating and archiving a database, creating table, loading data, an
   
   [Coming Soon!]
 
+### fastAPI (with Github Actions enabling CI/CT)
+![example workflow](https://github.com/QualityEngineering101/eqe-python-scripts/actions/workflows/WORKFLOW-FILE/badge.svg)
+Demonstrates using fastAPI, pydantic, and SQLAlchemy to create APIs, pytest to execute a suite of test cases for those APIs, and GitHub actions to run the tests when code is pushed to GitHub.
+
+  `**Dependencies**: fastapi==0.115.11, httpx==0.28.1, pydantic==2.10.6, pytest==8.3.4, pytest-asyncio==0.25.3, SQLAlchemy==2.0.39, uvicorn==0.34.0`
+
+  **Features**: 
+  - [Coming soon!] 
+  - [Coming soon!]
+
+    **How to clone and run**
+  
+  [Coming Soon!]
