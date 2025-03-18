@@ -12,7 +12,8 @@ This project provides examples of using python with existing packages to acceler
 ### Selenium Examples
 Automation scripts that create Selenium webdrivers, navigate to websites, finds or interacts with elements on the page.
 
-  `**Dependencies**: Python>=3.9, selenium=4.29.0, webdriver-manager=4.0.2`
+  `**Dependencies**: Python>=3.9, selenium=4.29.0, webdriver-manager=4.0.2
+  `
   
   **Features**:
   - [QEWebDriverHelper.py](https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/selenium/src/EQEUtils/QEWebDriverHelper.py) - automatic detection of installed browsers, manages WebDriver binaries, supports headed and headless execution modes, error handling and logging capabilities, cross-browser testing
@@ -25,7 +26,8 @@ Automation scripts that create Selenium webdrivers, navigate to websites, finds 
 ### Behave Examples 
 BDD implementation highlighting use of .feature file, step implementations, and environments.py
 
-  `**Dependencies**: Behave=1.2.6, assertpy=1.1, selenium=4.29.0, webdriver-manager=4.0.2, urllib3=2.3.0, allure-behave=2.13.5`
+  `**Dependencies**: Behave=1.2.6, assertpy=1.1, selenium=4.29.0, webdriver-manager=4.0.2, urllib3=2.3.0, allure-behave=2.13.5
+  `
    
    **Features**:
   - [home_page_vsitor_experience.feature](https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/behave/features/home_page_visitor_experience.feature) - contains a (near) complete set of test scenarios for a given application feature written in plain text, focuses on what the application should do from a business perspective, removes all technical details
@@ -42,7 +44,8 @@ BDD implementation highlighting use of .feature file, step implementations, and 
 ### Sqlite3 Examples
 Demonstrates creating and archiving a database, creating table, loading data, and then performing full compare validations across databases and tables
 
-  `**Dependencies**: selenium=4.29.0`
+  `**Dependencies**: selenium=4.29.0
+  `
   
   **Features**: 
   - [get_orangehrm_su_data.py](https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/sqlite3/get_orangehrm_su_data.py) - a script that logs into a demo website, navigates pages using menu/menu items, extracts user data from objects, and packages that data into a structure that can be used by other python scripts
@@ -57,7 +60,8 @@ Demonstrates creating and archiving a database, creating table, loading data, an
 
 Demonstrates using fastAPI, pydantic, and SQLAlchemy to create APIs, pytest to execute a suite of test cases for those APIs, and GitHub actions to run the tests when code is pushed to GitHub.
 
-  `**Dependencies**: fastapi==0.115.11, httpx==0.28.1, pydantic==2.10.6, pytest==8.3.4, pytest-asyncio==0.25.3, SQLAlchemy==2.0.39, uvicorn==0.34.0`
+  `**Dependencies**: fastapi==0.115.11, httpx==0.28.1, pydantic==2.10.6, pytest==8.3.4, pytest-asyncio==0.25.3, SQLAlchemy==2.0.39, uvicorn==0.34.0
+  `
 
   **Features**: 
   - [Coming soon!] 
