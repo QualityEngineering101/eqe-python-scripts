@@ -17,15 +17,20 @@ def test_get_product_by_id(test_client:TestClient):
     else:
         assert response.status_code == 404
 
-# def test_create_product(test_client:TestClient):
-#     new_product = {
-#         "name":"Test Product",
-#         "description":"A Test Product",
-#         "status":"draft"
-#     }
-#     response = test_client.post("/products/",json=new_product)
-#     assert response.status_code == 201
-#     assert response.json()["name"] == new_product["name"]
+def test_create_product(test_client:TestClient):
+    new_product = {
+        "name":"Test Product",
+        "description":"A Test Product",
+        "status":"draft"
+    }
+    response = test_client.post("/products/",json=new_product)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["name"] == new_product["name"]
+    assert data["description"] == new_product["description"]
+    assert data["status"] == new_product["status"]
+    assert "id" in data
+    assert "created_at" in data
 
 def test_invalid_product_fetch(test_client: TestClient):
     """ Test getting a non-existent product """

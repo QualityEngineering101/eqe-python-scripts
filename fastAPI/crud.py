@@ -1,8 +1,14 @@
 from sqlalchemy.orm import Session
-from models import TestPlan, TestSuite
-from schemas import TestPlanCreate, TestPlanUpdate, TestSuiteCreate, TestSuiteUpdate
+from models import TestPlan, TestSuite, Product
+from schemas import TestPlanCreate, TestPlanUpdate, TestSuiteCreate, TestSuiteUpdate, ProductCreate
 from typing import List, Optional
 
+def create_product(db:Session, product: ProductCreate)-> Product:
+    new_product = Product(**product.model_dump(exclude_unset = True))
+    db.add(new_product)
+    db.commit()
+    db.refresh(new_product)
+    return new_product
 
 def create_test_plan(db: Session, test_plan: TestPlanCreate) -> TestPlan:
     new_plan = TestPlan(**test_plan.model_dump(exclude_unset=True))

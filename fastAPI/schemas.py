@@ -16,6 +16,12 @@ class ProductResponse(ProductBase):
 
     model_config = {"from_attributes": True}
 
+class ProductCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    status: Literal["draft", "active", "archived"] = "draft"
+
+
 
 class TestPlanBase(BaseModel):
     name: str
