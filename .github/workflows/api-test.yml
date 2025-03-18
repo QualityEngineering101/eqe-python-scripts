@@ -26,9 +26,9 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r fastAPI/requirements.txt
 
       - name: Run API tests
         run: |
           source venv/bin/activate
-          pytest tests/ --disable-warnings --maxfail=5
+          pytest fastAPI/tests/ --disable-warnings --maxfail=5
