@@ -1,7 +1,12 @@
 import pytest
-import seed_db
 from fastapi.testclient import TestClient
 from main import app
+import os, sys
+
+# Add the parent directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
+
+import seed_db
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():

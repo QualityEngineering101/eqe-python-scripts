@@ -17,18 +17,21 @@ def test_get_product_by_id(test_client:TestClient):
     else:
         assert response.status_code == 404
 
-def test_create_product(test_client:TestClient):
-    new_product = {
-        "name":"Test Product",
-        "description":"A Test Product",
-        "status":"draft"
-    }
-    response = test_client.post("/products/",json=new_product)
-    assert response.status_code == 201
+@pytest.mark.parametrize(
+    "payload, expected_status",
+    [
+        ({"name": "Product D", "description": "Product D Description", "status": "draft"}, 201),
+        ({"name": "Product E", "description": "Product E Description", "status": "active"}, 201),
+        ({"name": "Product F", "description": "Product F Description", "status": "archived"}, 201), 
+    ],
+)
+def test_create_product(test_client:TestClient, payload, expected_status):
+    response = test_client.post("/products/",json=payload)
+    assert response.status_code == expected_status
     data = response.json()
-    assert data["name"] == new_product["name"]
-    assert data["description"] == new_product["description"]
-    assert data["status"] == new_product["status"]
+    assert payload["name"] == data["name"]
+    assert payload["description"] == data["description"]
+    assert payload["status"] == data["status"]
     assert "id" in data
     assert "created_at" in data
 
