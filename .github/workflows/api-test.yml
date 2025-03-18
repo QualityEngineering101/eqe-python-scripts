@@ -26,10 +26,10 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
-          pip install -r eqe-python-scripts/fastAPI/requirements.txt
+          pip install -r fastAPI/requirements.txt
 
       - name: Run API tests
         run: |
           source venv/bin/activate
-          cd eqe-python-scripts/fastAPI
-          pytest fastAPI/tests/ --disable-warnings --maxfail=5
+          cd fastAPI
+          pytest tests/ --disable-warnings --maxfail=5
