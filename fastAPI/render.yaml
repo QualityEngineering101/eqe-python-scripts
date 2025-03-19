@@ -1,0 +1,19 @@
+version: "1"
+services:
+  - type: web
+    name: fastapi-app
+    runtime: python
+    region: virginia 
+    plan: free
+    repo: https://github.com/QualityEngineering101/eqe-python-scripts
+    branch: fastAPI  
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 8000
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: DATABASE_URL
+        value: "sqlite:///./test_api_tracker2.db"

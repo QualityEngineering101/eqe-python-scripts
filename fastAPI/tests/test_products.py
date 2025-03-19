@@ -37,19 +37,19 @@ def test_create_product(test_client:TestClient, payload, expected_status_code):
     response = test_client.post("/products/",json=payload)
     assert response.status_code == expected_status_code
     data = response.json()
-    try:
-        if response.status_code == 201:
-            assert payload["name"] == data["name"]
-            assert payload["description"] == data["description"]
-            assert payload["status"] == data["status"] or "draft"
-            assert "id" in data
-            assert "created_at" in data
-        else:
-            assert "detail" in data
-            print(f"Validational error: {data}")
-    except Exception as e:
-        print(f"Unexpected Exception: {e}")
+    if response.status_code == 201:
+        assert payload["name"] == data["name"]
+        assert payload["description"] == data["description"]
+        assert "status" in data, f"Missing 'status' key in response: {data}" 
+        assert payload.get("status","draft") == data["status"]
+        assert "id" in data
+        assert "created_at" in data
+    else:
+        assert "detail" in data
+        print(f"Validational error: {data}")
+
         
+
 def test_invalid_product_fetch(test_client: TestClient):
     """ Test getting a non-existent product """
     response = test_client.get("/product/9999")
