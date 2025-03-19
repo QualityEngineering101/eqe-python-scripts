@@ -30,6 +30,13 @@ def get_test_plan_by_id(test_plan_id: int, db: Session = Depends(get_db)):
 def create_test_plan(test_plan: schemas.TestPlanCreate, db: Session = Depends(get_db)):
     return crud.create_test_plan(db, test_plan)
 
+@router.post("/{test_plan_id}/associate_test_suite", response_model=dict)
+def associate_test_suite(
+    test_plan_id: int,
+    association: schemas.TestPlanTestSuiteAssociation,
+    db:Session = Depends(get_db)
+):
+    return crud.associate_test_suite_with_test_plan(db, test_plan_id, association.test_suite_id)
 
 @router.put("/{test_plan_id}", response_model=schemas.TestPlanResponse)
 def update_test_plan(

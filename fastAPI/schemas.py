@@ -71,3 +71,8 @@ class TestSuiteResponse(TestSuiteBase):
     updated_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
+
+class TestPlanTestSuiteAssociation(BaseModel):
+    test_plan_id: int
+    test_suite_id: int
+    
