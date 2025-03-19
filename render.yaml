@@ -24,4 +24,4 @@ services:
         value: "3.11"
       - key: DATABASE_URL
         value: "sqlite:///./test_api_tracker2.db"
-        sync: false
+
