@@ -73,5 +73,4 @@ def test_invalid_product_fetch(test_client: TestClient, id, expected_status_code
     assert response.status_code == expected_status_code
     if "detail" in data: assert data["detail"] == err_msg
 
-# TODO expand the tests
 
