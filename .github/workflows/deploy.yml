@@ -57,7 +57,31 @@ jobs:
             hostname
             pwd
             ls -la
+
+            # Find and stop any running container using port 8000
+            echo "Checking for running containers on port 8000..."
+            RUNNING_CONTAINER=$(docker ps --filter "publish=8000" --format "{{.ID}}")
+            if [ ! -z "$RUNNING_CONTAINER" ]; then
+              echo "Stopping container $RUNNING_CONTAINER..."
+              docker stop $RUNNING_CONTAINER
+              docker rm $RUNNING_CONTAINER
+            fi
+
+            # Ensure no old containers remain
+            echo "Pruning old Docker containers..."
+            docker container prune -f
+
+            # Ensure port 8000 is not in use
+            echo "Checking for processes using port 8000..."
+            if sudo lsof -i :8000; then
+              echo "Port 8000 is still in use. Killing the process..."
+              sudo kill -9 $(sudo lsof -t -i :8000)
+            fi
+
+            # Pull latest Docker image
+            echo "Pulling latest Docker image..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
-            docker stop fastapi-app || true
-            docker rm fastapi-app || true
+
+            # Run new FastAPI container with correct name
+            echo "Starting new FastAPI container..."
             docker run -d -p 8000:8000 --name fastapi-app ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
