@@ -11,6 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the FastAPI app code
 COPY . .
 
+# Ensure tests directory is explicitly copied (just to be safe)
+COPY tests app/tests
+
 # Expose port 8000 for FastAPI
 EXPOSE 8000
 
