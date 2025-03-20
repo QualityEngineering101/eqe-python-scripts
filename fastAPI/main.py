@@ -8,11 +8,6 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 app = FastAPI()
 
-@app.get("/health")
-def health_check():
-    return {"status":"ok"}
-
-    
 app.include_router(product_router)
 app.include_router(test_plan_router)
 app.include_router(test_suite_router)
