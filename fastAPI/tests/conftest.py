@@ -8,6 +8,10 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + "/.."))
 
 import seed_db
 
+@pytest.fixture(scope="session")
+def base_url():
+    return os.getenv("BASE_URL", "http://localhost:8000")
+
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():
     print("\n[INFO] Seeding test database...")

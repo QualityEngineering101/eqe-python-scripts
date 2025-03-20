@@ -90,5 +90,4 @@ jobs:
         if: success()
         run: |
           pip install httpx pytest
-          pytest tests/ --base-url=http://${{ secrets.SERVER_HOST }}:8000
-          
+          BASE_URL="http://${{ secrets.SERVER_HOST }}:8000" pytest tests/

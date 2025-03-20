@@ -5,6 +5,7 @@ import models
 import schemas
 import crud
 
+
 router = APIRouter(prefix="/products", tags=["Products"])
 
 @router.get("/", response_model=list[schemas.ProductResponse])

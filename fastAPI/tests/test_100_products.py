@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
+
 def test_get_all_products(test_client:TestClient):
     """ Testing the retrieval of all products """
     response = test_client.get("/products/")
