@@ -2,8 +2,6 @@ import pytest
 from fastapi.testclient import TestClient
 
 
-
-
 def test_get_all_test_suites(test_client: TestClient):
     """Test retrieving all test suites"""
     response = test_client.get("/test_suites/")
