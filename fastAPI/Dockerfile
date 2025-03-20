@@ -5,14 +5,17 @@ FROM python:3.13.1
 WORKDIR /app
 
 # Copy the requirements file and install dependencies
-COPY requirements.txt .
+COPY fastAPI/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the FastAPI app code
-COPY app /app
+COPY fastAPI /app
 
 # Ensure tests directory is explicitly copied (just to be safe)
-COPY tests /app/tests
+COPY fastAPI/tests /app/tests
+
+# Ensure `tests/` exists inside `/app/tests`
+RUN ls -R /app/tests || echo "Warning: tests/ directory is missing!"
 
 # Expose port 8000 for FastAPI
 EXPOSE 8000
