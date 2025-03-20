@@ -85,3 +85,10 @@ jobs:
             # Run new FastAPI container with correct name
             echo "Starting new FastAPI container..."
             docker run -d -p 8000:8000 --name fastapi-app ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
+
+      - name: Run Post-Deployment API Tests
+        if: success()
+        run: |
+          pip install httpx pytest
+          pytest tests/ --base-url=http://${{ secrets.SERVER_HOST }}:8000
+          
