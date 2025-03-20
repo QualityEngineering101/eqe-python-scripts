@@ -7,7 +7,7 @@ def test_get_all_products(test_client:TestClient):
     assert response.status_code == 200
     assert isinstance(response.json(),list)
 
-# Parameterized create product test cases
+# Parameterized create product test cases.
 @pytest.mark.parametrize(
     "payload, expected_status_code, err_msg, err_desc",
     [
