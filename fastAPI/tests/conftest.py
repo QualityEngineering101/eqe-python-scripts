@@ -10,7 +10,13 @@ import seed_db
 
 @pytest.fixture(scope="session")
 def base_url():
-    return os.getenv("BASE_URL", "http://localhost:8000")
+    # If running in GitHub Actions, use the deployed server
+    if os.getenv("CI"):  # GitHub sets 'CI=true' in Actions
+        return f"http://{os.getenv('SERVER_HOST')}:8000"
+
+    # If running locally, default to localhost
+    return "http://localhost:8000"
+
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():
