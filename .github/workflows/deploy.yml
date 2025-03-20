@@ -3,7 +3,7 @@ name: CI/CD Pipeline - FastAPI Deployment to Google Cloud
 on:
   push:
     branches:
-      - main
+      - fastAPI
     paths:
       - "fastAPI/**"
 
