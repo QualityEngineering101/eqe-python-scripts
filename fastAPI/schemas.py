@@ -1,30 +1,33 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Literal
 from datetime import datetime
 
 
 class ProductBase(BaseModel):
-    name: str
+    name: str = Field(...,min_length=1)
     description: Optional[str] = None
     status: Literal["draft", "active", "archived"] = "draft"
 
 
 class ProductResponse(ProductBase):
     id: int
+    name: str
+    description: Optional[str] = None
+    status: Literal["draft","active","archived"]
     created_at: datetime
     updated_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
 
-class ProductCreate(BaseModel):
-    name: str
+class ProductCreate(ProductBase):
+    name: str = Field(...,min_length=1)
     description: Optional[str] = None
     status: Literal["draft", "active", "archived"] = "draft"
 
 
 
-class TestPlanBase(BaseModel):
-    name: str
+class TestPlanBase(ProductBase):
+    name: str = Field(...,min_length=1)
     description: Optional[str] = None
     status: Literal["draft", "active", "archived"] = "draft"
 
@@ -68,3 +71,8 @@ class TestSuiteResponse(TestSuiteBase):
     updated_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
+
+class TestPlanTestSuiteAssociation(BaseModel):
+    test_plan_id: int
+    test_suite_id: int
+    

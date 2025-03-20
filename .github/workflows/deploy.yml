@@ -1,0 +1,56 @@
+name: CI/CD Pipeline - FastAPI Deployment to Google Cloud
+
+on:
+  push:
+    branches:
+      - fastAPI
+    paths:
+      - "fastAPI/**"
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout FastAPI Folder Only
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            fastAPI
+          sparse-checkout-cone-mode: false
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image for FastAPI
+        working-directory: fastAPI
+        run: |
+          docker build -t fastapi-app-test .
+
+      - name: Run Tests Inside Docker Container
+        working-directory: fastAPI
+        run: |
+          docker run --rm fastapi-app-test pytest --junitxml=report.xml
+
+      - name: Tag and Push Docker Image (Only if Tests Pass)
+        if: success()
+        working-directory: fastAPI
+        run: |
+          docker tag fastapi-app-test ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
+
+      - name: Deploy to Google Cloud VM
+        if: success()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
+            docker stop fastapi-app || true
+            docker rm fastapi-app || true
+            docker run -d -p 8000:8000 --name fastapi-app ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
