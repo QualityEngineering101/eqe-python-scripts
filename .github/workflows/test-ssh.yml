@@ -17,4 +17,4 @@ jobs:
 
       - name: Test SSH Connection
         run: |
-          ssh -i ~/.ssh/id_rsa dean_f_marsh_gmail_com@${{ secrets.SERVER_HOST }} "echo 'GitHub Actions SSH test successful!'"
+          ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "echo 'GitHub Actions SSH test successful!'"
