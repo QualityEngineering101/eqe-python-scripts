@@ -6,7 +6,10 @@ on:
       - fastAPI  
   pull_request:
     branches:
-      - fastAPI  
+      - fastAPI
+    paths:
+      - "fastAPI/**"
+      - "fastAPI/Dockerfile"  
 
 jobs:
   test:

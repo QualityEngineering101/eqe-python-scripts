@@ -3,9 +3,6 @@ from database import engine, SessionLocal
 from models import TestSuite, Product, TestPlan
 from sqlalchemy.sql import text
 
-print("[INFO] Ensure database tables are all created...")
-models.Base.metadata.create_all(bind=engine)
-
 def clear_database(db: SessionLocal):
     """ Purge all data from database before starting tests """
     print("[INFO] Clearing all data from tables...")
