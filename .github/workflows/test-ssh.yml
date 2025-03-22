@@ -1,4 +1,4 @@
-name: Prod GCE SSH Connection
+name: Test GCE SSH Connection
 
 on:
   workflow_dispatch:  # Allows manual triggering in GitHub Actions UI
