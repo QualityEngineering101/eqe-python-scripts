@@ -1,19 +1,20 @@
 name: Prod GCE SSH Connection
 
 on:
-  workflow_dispatch:  # Allows manual triggering in GitHub Actions UI
+  workflow_dispatch:
 
 jobs:
   ssh-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup SSH Key
+      - name: Setup SSH Key and Known Hosts
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_HOST_PROD }} >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa ${{ secrets.SERVER_HOST_PROD }} >> ~/.ssh/known_hosts
+
       - name: Test SSH Connection
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "echo 'GitHub Actions SSH test successful!'"
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "echo 'GitHub Actions SSH test successful!'"
