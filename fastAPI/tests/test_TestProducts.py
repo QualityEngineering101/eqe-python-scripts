@@ -7,6 +7,7 @@ class TestProducts:
     # from a base test class, log all assertions, etc. 
 
     # TODO: This is not finished yet. Need to convert pytest files to Test classes
+    # TODO: Updated comment
 
     def test_get_all_products(self,test_client:TestClient):
         """ Testing the retrieval of all products """
