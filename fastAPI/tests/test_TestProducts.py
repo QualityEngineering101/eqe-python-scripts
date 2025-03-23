@@ -6,6 +6,8 @@ class TestProducts:
     # If this were going to be mainttained with purpose, I would expand the class to inherit
     # from a base test class, log all assertions, etc. 
 
+    # TODO: This is not finished yet. Need to convert pytest files to Test classes
+
     def test_get_all_products(self,test_client:TestClient):
         """ Testing the retrieval of all products """
         response = test_client.get("/products/")
