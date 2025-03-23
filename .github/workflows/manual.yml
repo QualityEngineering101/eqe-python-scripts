@@ -22,4 +22,4 @@ jobs:
 
       - name: Test SSH Connection
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "echo 'GitHub Actions SSH to PROD is working!'"
+          timeout 15s ssh -tt -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "echo 'GitHub Actions SSH to PROD is working!'"
