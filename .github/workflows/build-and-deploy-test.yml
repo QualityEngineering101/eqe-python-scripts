@@ -1,0 +1,79 @@
+name: API Tests
+
+on:
+  push:
+    branches:
+      - fastAPI
+      - 'fastAPI/**'  
+  pull_request:
+    branches:
+      - fastAPI
+      - 'fastAPI/**'
+    paths:
+      - "fastAPI/**"
+      - "fastAPI/Dockerfile"  
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        working-directory: fastAPI
+        run: |
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt
+
+      - name: Run API tests
+        working-directory: fastAPI
+        run: |
+          ./venv/bin/python -m pytest tests/ --disable-warnings --maxfail=5
+      - name: Deploy to Test Environment
+        if: success()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "Logged into test server: $(hostname)"
+
+            RUNNING=$(docker ps --filter "publish=8000" --format "{{.ID}}")
+            if [ ! -z "$RUNNING" ]; then
+              echo "Stopping container $RUNNING"
+              docker stop $RUNNING
+              docker rm $RUNNING
+            fi
+
+            docker container prune -f
+
+            docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
+            docker run -d -p 8000:8000 --name fastapi-app ${{ secrets.DOCKER_USERNAME }}/fastapi-app:latest
+
+            echo "Deployed to test VM"
+
+      - name: Run Post-Deployment API Tests
+        if: success()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "Listing files in /app..."
+            docker exec fastapi-app ls -R /app/
+
+            echo "Checking if tests directory exists inside the container..."
+            docker exec fastapi-app ls -la /app/tests || echo "Warning: tests/ directory is missing"
+
+            echo "Running tests inside the deployed container..."
+            docker exec fastapi-app pytest /app/tests --disable-warnings
