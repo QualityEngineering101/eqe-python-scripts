@@ -13,7 +13,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
+      - name: Debug ssh-keyscan output
+        run: |
+          echo "Running ssh-keyscan manually"
+          ssh-keyscan -v -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }}
+        
           # Add all supported host key types (RSA, ECDSA, ED25519)
           ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} | tee ~/.ssh/known_hosts
 
