@@ -16,7 +16,10 @@ jobs:
           echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -t rsa ${{ secrets.SERVER_HOST_PROD }} >> ~/.ssh/known_hosts
-
+      - name: Check if ssh-keyscan returns anything
+        run: |
+          echo "Scanning host: ${{ secrets.SERVER_HOST_PROD }}"
+          ssh-keyscan -t rsa ${{ secrets.SERVER_HOST_PROD }}
       - name: Test SSH Connection
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "echo 'GitHub Actions SSH test successful!'"
