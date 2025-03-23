@@ -13,7 +13,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa ${{ secrets.SERVER_HOST_PROD }} >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} >> ~/.ssh/known_hosts
+      - name: Show what's in known_hosts for debugging
+        run: |
+          echo "Populated known_hosts:"
+          cat ~/.ssh/known_hosts
       - name: Run ssh-keyscan and show results
         run: |
           echo "Trying ssh-keyscan for PROD..."
