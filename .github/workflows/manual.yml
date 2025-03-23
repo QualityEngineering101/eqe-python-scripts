@@ -15,7 +15,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
           # Add all supported key types from the prod VM (rsa, ecdsa, ed25519)
-          ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} | tee ~/.ssh/known_hosts
 
           echo "Check known_hosts populated:"
           cat ~/.ssh/known_hosts
