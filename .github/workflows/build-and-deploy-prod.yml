@@ -18,7 +18,7 @@ jobs:
         with:
           sparse-checkout: |
             fastAPI
-            Dockkerfile
+            Dockerfile
           sparse-checkout-cone-mode: false
       - name: Debug - List Files in Github Actions
         run: ls -l
