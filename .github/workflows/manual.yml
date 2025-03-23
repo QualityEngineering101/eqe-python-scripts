@@ -1,22 +1,23 @@
 name: Prod GCE SSH Connection
 
 on:
-  workflow_dispatch:  # Allows manual triggering from GitHub UI
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
 
 jobs:
   ssh-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup SSH Key and Known Hosts
+      - name: Set up SSH Key and Known Hosts
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          # Add all supported key types from the prod VM (rsa, ecdsa, ed25519)
+          # Add all supported host key types (RSA, ECDSA, ED25519)
           ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} | tee ~/.ssh/known_hosts
-          echo "Check known_hosts populated:"
+
+          echo "known_hosts contents:"
           cat ~/.ssh/known_hosts
 
       - name: Test SSH Connection
