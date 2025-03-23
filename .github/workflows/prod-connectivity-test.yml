@@ -1,0 +1,24 @@
+name: Prod GCE SSH Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh-prod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup SSH Key and Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa_prod
+          chmod 600 ~/.ssh/id_rsa_prod
+
+          ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} | tee ~/.ssh/known_hosts
+
+          echo "✅ known_hosts populated (Prod):"
+          cat ~/.ssh/known_hosts
+
+      - name: Test SSH Connection
+        run: |
+          ssh -tt -i ~/.ssh/id_rsa_prod -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "bash -c 'echo ✅ GitHub Actions SSH to PROD is working!'"

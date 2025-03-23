@@ -5,6 +5,8 @@ from typing import List, Optional
 from fastapi import HTTPException
 import models
 
+# CRUD logic for each API
+
 def create_product(db:Session, product: ProductCreate)-> Product:
     new_product = Product(**product.model_dump(exclude_unset = True))
     db.add(new_product)
