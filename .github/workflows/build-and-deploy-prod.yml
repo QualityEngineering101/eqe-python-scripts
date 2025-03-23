@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - FastAPI Deployment to Google Cloud (Prod)
+name: Build and Deploy to Prod Env (API)
 
 on:
   push:

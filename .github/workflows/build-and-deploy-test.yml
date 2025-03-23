@@ -1,18 +1,9 @@
-name: API Tests
+name: Build and Deploy to Test Env (API)
 
 on:
   push:
     branches:
       - fastAPI
-      - 'fastAPI/**'  
-  pull_request:
-    branches:
-      - fastAPI
-      - 'fastAPI/**'
-    paths:
-      - "fastAPI/**"
-      - "fastAPI/Dockerfile"  
-
 jobs:
   test:
     runs-on: ubuntu-latest
