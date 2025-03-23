@@ -11,8 +11,8 @@ jobs:
       - name: Set up SSH Key and Known Hosts
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa_prod
+          chmod 600 ~/.ssh/id_rsa_prod
       - name: Debug ssh-keyscan output
         run: |
           echo "Running ssh-keyscan manually"
@@ -26,4 +26,4 @@ jobs:
 
       - name: Test SSH Connection
         run: |
-          ssh -tt -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "bash -c 'echo GitHub Actions SSH to PROD is working!'"
+          ssh -tt -i ~/.ssh/id_rsa_prod -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "bash -c 'echo GitHub Actions SSH to PROD is working!'"
