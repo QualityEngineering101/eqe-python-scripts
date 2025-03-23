@@ -16,7 +16,6 @@ jobs:
 
           # Add all supported key types from the prod VM (rsa, ecdsa, ed25519)
           ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} | tee ~/.ssh/known_hosts
-
           echo "Check known_hosts populated:"
           cat ~/.ssh/known_hosts
 
