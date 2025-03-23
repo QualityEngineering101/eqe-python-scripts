@@ -1,7 +1,7 @@
 name: Prod GCE SSH Connection
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
 
 jobs:
   ssh-test:
@@ -13,19 +13,13 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_SSH_KEY_PROD }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+
+          # Add all supported key types from the prod VM (rsa, ecdsa, ed25519)
           ssh-keyscan -t rsa,ecdsa,ed25519 ${{ secrets.SERVER_HOST_PROD }} >> ~/.ssh/known_hosts
-      - name: Show what's in known_hosts for debugging
-        run: |
-          echo "Populated known_hosts:"
+
+          echo "Check known_hosts populated:"
           cat ~/.ssh/known_hosts
-      - name: Run ssh-keyscan and show results
-        run: |
-          echo "Trying ssh-keyscan for PROD..."
-          ssh-keyscan -t rsa ${{ secrets.SERVER_HOST_PROD }}
-      - name: Check if ssh-keyscan returns anything
-        run: |
-          echo "Scanning host: ${{ secrets.SERVER_HOST_PROD }}"
-          ssh-keyscan -t rsa ${{ secrets.SERVER_HOST_PROD }}
+
       - name: Test SSH Connection
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "echo 'GitHub Actions SSH test successful!'"
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes ${{ secrets.SERVER_USER_PROD }}@${{ secrets.SERVER_HOST_PROD }} "echo 'GitHub Actions SSH to PROD is working!'"
