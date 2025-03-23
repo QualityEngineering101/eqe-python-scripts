@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug known hosts
+        run: cat ~/.ssh/known_hosts
       - name: Setup SSH Key and Known Hosts
         run: |
           mkdir -p ~/.ssh
