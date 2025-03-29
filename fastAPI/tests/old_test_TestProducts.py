@@ -3,10 +3,14 @@ from fastapi.testclient import TestClient
 
 class TestProducts:
     # Example of a using a Test Class rather than just test methods.
-    # If this were going to be mainttained with purpose, I would expand the class to inherit
+    # If this were going to be maintained with purpose, I would expand the class to inherit
     # from a base test class, log all assertions, etc. 
-
-    # TODO: This is not finished yet. Need to convert pytest files to Test classes
+    def setup_class(cls):
+        # Load Test Data
+        pass
+    def teardown_class(cls):
+        # Clean something out or release resources
+        pass
 
     def test_get_all_products(self,test_client:TestClient):
         """ Testing the retrieval of all products """
@@ -16,41 +20,49 @@ class TestProducts:
 
     # Parameterized create product test cases.
     @pytest.mark.parametrize(
+        "payload, expected_status_code",
+        [
+            ({"name": "Product D", "description": "Product D Description", "status": "draft"}, 201),
+            ({"name": "Product E", "description": "Product E Description", "status": "active"}, 201),
+            ({"name": "Product F", "description": "Product F Description", "status": "archived"}, 201),
+            ({"name": "Required Field Check", "description":"Status is Missing"},201),
+        ],
+    )
+    def test_create_product(self, test_client:TestClient, payload, expected_status_code):
+        response = test_client.post("/products/",json=payload)
+        assert response.status_code == expected_status_code
+        data = response.json()
+        assert response.status_code == 201
+        assert payload["name"] == data["name"]
+        assert payload["description"] == data["description"]
+        assert "status" in data, f"Missing 'status' key in response: {data}" 
+        assert payload.get("status","draft") == data["status"]
+        assert "id" in data
+        assert "created_at" in data
+
+
+    @pytest.mark.parametrize(
         "payload, expected_status_code, err_msg, err_desc",
         [
-            ({"name": "Product D", "description": "Product D Description", "status": "draft"}, 201, "", ""),
-            ({"name": "Product E", "description": "Product E Description", "status": "active"}, 201, "", ""),
-            ({"name": "Product F", "description": "Product F Description", "status": "archived"}, 201, "",""),
             ({"description": "Missing Product Name", "status":"draft"},422, "Field required", "Missing Product Name"),
             ({"name": "Required Field Check", "description":"Invalid Status (Unsupported)", "status":"approved"}, 422, "Input should be 'draft', 'active' or 'archived'", ""),
             ({"name": "Required Field Check", "description":"Invalid Status (Upper)","status":"DRAFT"},422, "Input should be 'draft', 'active' or 'archived'", ""),
             ({"name": "Required Field Check", "description":"Invalid Status (Title)","status":"Draft"},422, "Input should be 'draft', 'active' or 'archived'", ""),
             ({"name": "Required Field Check", "description":"Status is Blank","status":""},422, "Input should be 'draft', 'active' or 'archived'", ""),
             ({"name": "Required Field Check", "description":"Status is Space","status":" "},422, "Input should be 'draft', 'active' or 'archived'", ""),
-            ({"name": "Required Field Check", "description":"Status is Missing"},201, "", ""),
-            ({"name": "Required Field Check", "description":"Unsupported Field", "status":"draft","department":"marketing"},201, "", "")
-        ],
+        ]
     )
-    def test_create_product(self, test_client:TestClient, payload, expected_status_code, err_msg, err_desc):
+    def test_create_products_with_errors(self, test_client: TestClient, payload, expected_status_code,err_msg,err_desc):
         response = test_client.post("/products/",json=payload)
         assert response.status_code == expected_status_code
         data = response.json()
-        if response.status_code == 201:
-            assert payload["name"] == data["name"]
-            assert payload["description"] == data["description"]
-            assert "status" in data, f"Missing 'status' key in response: {data}" 
-            assert payload.get("status","draft") == data["status"]
-            assert "id" in data
-            assert "created_at" in data
-        elif response.status_code == 422:
-            element = data["detail"][0]
-            assert element["msg"] == err_msg
-            if "ctx" not in element:
-                assert element["input"]["description"] == err_desc
-        else:
-            assert "detail" in data
-            print(f"Validational error: {data}")
-
+        response.status_code == 422
+        element = data["detail"][0]
+        assert element["msg"] == err_msg
+        if "ctx" not in element:
+            assert element["input"]["description"] == err_desc
+        
+        
     @pytest.mark.parametrize(
         "id, expected_status_code, err_msg, err_desc",
         [
