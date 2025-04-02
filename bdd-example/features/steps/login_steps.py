@@ -10,6 +10,7 @@ driver = None
 def step_the_browser_is_open(context):
     global driver
     options = Options()
+    options.add_experimental_option('excludeSwitches',['enable-logging'])
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
     driver.implicitly_wait(10)

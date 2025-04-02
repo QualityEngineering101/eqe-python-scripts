@@ -65,6 +65,7 @@ def generate_step_definitions(steps, output_file):
             if "the browser is open" in step_text:
                 f.write("    global driver\n")
                 f.write("    options = Options()\n")
+                f.write("    options.add_experimental_option('excludeSwitches',['enable-logging'])\n")
                 f.write("    driver = webdriver.Chrome(options=options)\n")
                 f.write("    driver.maximize_window()\n")
                 f.write("    driver.implicitly_wait(10)\n")
@@ -99,11 +100,11 @@ def generate_step_definitions(steps, output_file):
                 f.write("    # TODO: Implement this step\n")
                 f.write("    pass\n\n")
 
-    print(f"✅ Step definitions with logic generated in {output_file}")
+    print(f"Step definitions with logic generated in {output_file}")
 
 def run_behave():
-    print("\n🚀 Running Behave test suite...\n")
-    subprocess.run(["behave","-v"], cwd=Path(__file__).resolve().parent)
+    print("\nRunning Behave test suite...\n")
+    subprocess.run(["behave"], cwd=Path(__file__).resolve().parent)
 
 if __name__ == "__main__":
     steps = extract_steps_from_feature(FEATURE_FILE)
