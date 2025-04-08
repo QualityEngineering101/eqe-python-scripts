@@ -9,7 +9,7 @@ URL="https://wwww.amazon.com"
 browser_helper = QEWebDriverHelper(
     browser="Chrome", 
     url=URL, 
-    mode="headed")
+    mode="headless")
 driver = browser_helper.get_driver()
 time.sleep(5)
 driver.quit()
@@ -17,14 +17,14 @@ driver.quit()
 browser_helper = QEWebDriverHelper(
     browser=QEWebDriverHelper.EDGE, 
     url=URL, 
-    mode="headed")
+    mode="headless")
 driver = browser_helper.get_driver()
 time.sleep(5)
 
 browser_helper = QEWebDriverHelper(
     browser=QEWebDriverHelper.FIREFOX, 
     url=URL, 
-    mode="headed")
+    mode="headless")
 driver = browser_helper.get_driver()
 time.sleep(5)
 driver.quit()

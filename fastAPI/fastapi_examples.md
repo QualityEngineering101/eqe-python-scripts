@@ -156,6 +156,8 @@ tests\test_400_association_plans_suites ..       [100%]
 
 This FastAPI project uses GitHub Actions for continuous integration, testing, and deployment (CI/CD/CT). Below are instructions for triggering and monitoring each stage of the pipeline.
 
+Note: you can execute step 4a without step 4b but to get the full CI-CD-CT experience using GitHub, you need to also run step 4b.
+
 ---
 
 ### Preconditions
@@ -164,7 +166,7 @@ This project requires access to GCP VMs configured as **Test** and **Production*
 
 You have two options:
 
-* Provision your own VMs (ensure SSH access, Docker is installed, and port 8000 is open)
+* Provision your own VMs (ensure SSH access, Python is installed, Docker is installed, and port 8000 is open)
 
 * Or, [open an issue](https://github.com/QualityEngineering101/eqe-python-scripts/issues/new) to request access to the shared FastAPI Test/Prod environments (subject to availability)
 
@@ -182,6 +184,7 @@ These tests run automatically for branches that start with `fastAPI`.
 **Runs:** `.github/workflows/dev-check-in-tests.yml`
 
 **What it does:**
+
 * Checks out the `fastAPI` folder
 
 * Sets up Python 3.11 and a virtual environment
