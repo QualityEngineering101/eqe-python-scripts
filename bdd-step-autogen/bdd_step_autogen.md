@@ -1,4 +1,4 @@
-### BDD Step Auto Generation
+# BDD Step Auto Generation
 
 Script that parses `.feature` files and auto-generates matching `*_steps.py` implementations for each scenario and step. Currently set up to work with a `features/login.feature` file and produce `features/steps/login_steps.py`.
 
