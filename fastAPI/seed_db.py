@@ -40,6 +40,11 @@ def seed_data(db: SessionLocal):
     test_suite6 = TestSuite(name="Archived Test Suite",description="Archived Test Suite", status = "archived")
     db.add_all([test_suite1, test_suite2, test_suite3, test_suite4, test_suite5, test_suite6])
     db.commit()
+    
+    # Test Plans to Test Suites Mapping
+    tpts_sql = "INSERT INTO test_plans_test_suites (test_plan_id, test_suite_id) values (1,1)"
+    db.execute(text(tpts_sql))
+    db.commit()
 
 def main():
     db = SessionLocal()
