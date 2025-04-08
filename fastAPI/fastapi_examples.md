@@ -51,16 +51,11 @@ Includes multiple GitHub Actions workflows that handle test execution, container
 
 **GitHub Workflows:**
 
-* `.github/workflows/dev-check-in-tests.yml`  
-  ➤ Runs pytest suite for any branch matching `fastAPI*` on push/PR  
-* `.github/workflows/build-and-deploy-test.yml`  
-  ➤ Builds, tests, and deploys to the **Test environment** when `fastAPI` is pushed  
-* `.github/workflows/build-and-deploy-prod.yml`  
-  ➤ Builds, tests, and deploys to the **Production environment** on `main` branch push  
-* `.github/workflows/deploy.yml`  
-  ➤ Runs after successful test completion (from "API Tests" workflow); builds Docker image, runs tests inside container, pushes to Docker Hub, and deploys to GCP  
-* `.github/workflows/test-connectivity-test.yml` & `prod-connectivity-test.yml`  
-  ➤ Manually triggered SSH connectivity checks for **Test** and **Production** VMs, ensuring GitHub Actions can connect before full deployment flows
+* `.github/workflows/dev-check-in-tests.yml` - Runs pytest suite for any branch matching `fastAPI*` on push/PR  
+* `.github/workflows/build-and-deploy-test.yml` - Builds, tests, and deploys to the **Test environment** when `fastAPI` is pushed  
+* `.github/workflows/build-and-deploy-prod.yml` - Builds, tests, and deploys to the **Production environment** on `main` branch push  
+* `.github/workflows/deploy.yml` - Runs after successful test completion (from "API Tests" workflow); builds Docker image, runs tests inside container, pushes to Docker Hub, and deploys to GCP  
+* `.github/workflows/test-connectivity-test.yml` & `prod-connectivity-test.yml` - Manually triggered SSH connectivity checks for **Test** and **Production** VMs, ensuring GitHub Actions can connect before full deployment flows
 
 ## How to Clone and Run `fastAPI`
 
