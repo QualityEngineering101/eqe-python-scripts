@@ -90,7 +90,7 @@ pip install -r ../fastAPI_requirements.txt
 
 ---
 
-### ▶️ 4. Run the Project
+### ▶️ 4a. Run the Project (Locally)
 
 **Run locally using uvicorn**
 
@@ -151,3 +151,128 @@ tests\test_400_association_plans_suites ..       [100%]
 ========================================= 36 passed in 0.59s ============================================ 
 
 ````
+
+## 4b. CI/CD/CT Automation – How to Trigger and Verify Pipelines
+
+This FastAPI project uses GitHub Actions for continuous integration, testing, and deployment (CI/CD/CT). Below are instructions for triggering and monitoring each stage of the pipeline.
+
+---
+
+### Preconditions
+
+This project requires access to GCP VMs configured as **Test** and **Production** environments.
+
+You have two options:
+
+* Provision your own VMs (ensure SSH access, Docker is installed, and port 8000 is open)
+
+* Or, [open an issue](https://github.com/QualityEngineering101/eqe-python-scripts/issues/new) to request access to the shared FastAPI Test/Prod environments (subject to availability)
+
+---
+
+### 1. Dev Check-in Tests
+
+These tests run automatically for branches that start with `fastAPI`.
+
+**Triggering:**
+
+* Push to a branch like `fastAPI-feature-xyz`
+* Create a pull request targeting any `fastAPI*` branch
+
+**Runs:** `.github/workflows/dev-check-in-tests.yml`
+
+**What it does:**
+* Checks out the `fastAPI` folder
+
+* Sets up Python 3.11 and a virtual environment
+* Installs dependencies
+* Runs the full `pytest` suite inside `fastAPI/tests`
+
+**Verify:**  
+Go to GitHub → Actions → "Dev Check-in Tests (API)"  
+Or check your PR status for pass/fail badge.
+
+---
+
+### 2. Build and Deploy to Test Environment
+
+**Triggering:**  
+
+* Push to the `fastAPI` branch
+
+**Runs:** `.github/workflows/build-and-deploy-test.yml`
+
+**What it does:**
+
+* Builds Docker image for the FastAPI app
+* Runs tests inside the container
+* Deploys to a remote GCP Test VM via SSH
+* Re-runs tests inside the deployed container to confirm health
+
+**Verify:**
+
+* GitHub Actions → "Build and Deploy to Test Env (API)"
+* Look for deployment steps: Docker build, SSH connection, post-deploy test logs
+
+---
+
+### 3. Build and Deploy to Prod Environment
+
+**Triggering:**  
+
+* Push to the `main` branch
+
+**Runs:** `.github/workflows/build-and-deploy-prod.yml`
+
+**What it does:**
+
+* Same steps as the Test environment deploy
+* Targets the **Production VM** (using separate secrets)
+
+**Verify:**
+
+* GitHub Actions → "Build and Deploy to Prod Env (API)"
+* Check for image tagging, SSH steps, and container health validation
+
+---
+
+### 4. Triggered Pipeline: CI/CD FastAPI Deployment
+
+**Runs on:** Completion of another workflow (e.g., "API Tests")
+
+**Runs:** `.github/workflows/deploy.yml`
+
+**What it does:**
+
+* Listens for successful runs of other workflows (like `dev-check-in-tests`)
+* If triggered, it:
+  * Builds Docker image
+  * Runs tests
+  * Pushes image to Docker Hub
+  * Deploys it to GCP
+  * Validates deployment via container-based `pytest`
+
+**Verify:**
+
+* GitHub Actions → "CI/CD Pipeline - FastAPI Deployment to Google Cloud"
+
+---
+
+### 5. Connectivity Checks (Manual)
+
+**Trigger manually** from GitHub → Actions → `prod-connectivity-test.yml` or `test-connectivity-test.yml`
+
+**What it does:**
+
+* Uses SSH to connect to GCP VM
+* Confirms that GitHub Actions can reach your deployment targets
+
+---
+
+### Tips
+
+* Make sure required GitHub secrets are set:
+  * `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY` (for test)
+  * `*_PROD` variants for production
+* All Docker images are tagged and pushed using the `DOCKER_USERNAME` secret
+* Ports used: `8000` for the FastAPI app
