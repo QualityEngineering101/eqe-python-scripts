@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from models import TestPlan, TestSuite, Product
+from app_models import TestPlan, TestSuite, Product
 from schemas import TestPlanCreate, TestPlanUpdate, TestSuiteCreate, TestSuiteUpdate, ProductCreate,TestPlanTestSuiteAssociation
 from typing import List, Optional
 from fastapi import HTTPException
-import models
+import app_models
 
 # CRUD logic for each API
 
@@ -84,8 +84,8 @@ def delete_test_suite(db: Session, test_suite_id: int) -> Optional[TestSuite]:
     return db_test_suite
 
 def associate_test_suite_with_test_plan(db: Session, test_plan_id:int, test_suite_id: int):
-    test_plan = db.query(models.TestPlan).filter(models.TestPlan.id == test_plan_id).first()
-    test_suite = db.query(models.TestSuite).filter(models.TestSuite.id == test_suite_id).first()
+    test_plan = db.query(app_models.TestPlan).filter(app_models.TestPlan.id == test_plan_id).first()
+    test_suite = db.query(app_models.TestSuite).filter(app_models.TestSuite.id == test_suite_id).first()
 
     if not test_plan:
         raise HTTPException(status_code=404,detail="Test Plan not found")
@@ -99,7 +99,7 @@ def associate_test_suite_with_test_plan(db: Session, test_plan_id:int, test_suit
     if test_suite.status == "archived":
         raise HTTPException(status_code=400, detail="Archived test suites cannot be associated with test plans")    
     
-    existing_association = db.query(models.test_plans_test_suites).filter_by(
+    existing_association = db.query(app_models.test_plans_test_suites).filter_by(
         test_plan_id=test_plan_id, 
         test_suite_id=test_suite_id).first()
 
@@ -107,7 +107,7 @@ def associate_test_suite_with_test_plan(db: Session, test_plan_id:int, test_suit
         raise HTTPException(status_code=400, detail="Test Suite is already associated with the Test Plan")
     
     # Create association
-    db.execute(models.test_plans_test_suites.insert().values(
+    db.execute(app_models.test_plans_test_suites.insert().values(
         test_plan_id=test_plan_id,
         test_suite_id=test_suite_id
     ))
