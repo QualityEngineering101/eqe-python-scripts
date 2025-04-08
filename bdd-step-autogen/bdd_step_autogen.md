@@ -64,6 +64,9 @@ If successful, you should see:
 
 * a login_steps.py file created in the features/steps directory. This is the auto-generated step file.
 * the script should have opened a browser and ran the tests automatically:
+
+```text
 - 1 feature passed, 0 failed, 0 skipped
 - 1 scenario passed, 0 failed, 0 skipped
 - 8 steps passed, 0 failed, 0 skipped, 0 undefined
+```

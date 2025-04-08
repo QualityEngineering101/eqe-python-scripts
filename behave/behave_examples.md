@@ -2,7 +2,6 @@
 
 BDD implementation highlighting use of .feature file, step implementations, and environments.py
 
-
 ## Dependencies
 
   ` Python>=3.9, Behave=1.2.6, assertpy=1.1, selenium=4.29.0, webdriver-manager=4.0.2, urllib3=2.3.0, allure-behave=2.13.5
@@ -64,7 +63,11 @@ behave
 If successful, you should see:
 
 * the script should have opened a browser and ran the tests automatically
-* in addition to the individual steps being shown as being executed, you will see the final results as 
-  - 1 feature passed, 0 failed, 0 skipped
-  - 9 scenario passed, 0 failed, 0 skipped
-  - 43 steps passed, 0 failed, 0 skipped, 0 undefined
+* in addition to the individual steps being shown as being executed, you will see the final results
+
+  ```text
+  1 feature passed, 0 failed, 0 skipped
+  9 scenario passed, 0 failed, 0 skipped
+  43 steps passed, 0 failed, 0 skipped, 0 undefined 
+  ```
+  
