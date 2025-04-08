@@ -23,7 +23,7 @@ These steps assume you're using Python 3.12+ and have `pip` available.
 
 ---
 
-### 🌀 1. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/QualityEngineering101/eqe-python-scripts.git
@@ -32,7 +32,7 @@ cd eqe-python-scripts/behave
 
 ---
 
-### 📦 2. (Optional) Create and Activate a Virtual Environment
+### 2. (Optional) Create and Activate a Virtual Environment
 
 ```bash
 python -m venv venv
@@ -42,7 +42,7 @@ venv\Scripts\activate          # Windows
 
 ---
 
-### 📥 3. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r ../behave_requirements.txt
@@ -50,7 +50,7 @@ pip install -r ../behave_requirements.txt
 
 ---
 
-### ▶️ 4. Run the Project
+### 4. Run the Project
 
 ```bash
 behave
@@ -58,7 +58,7 @@ behave
 
 ---
 
-### 📈 5. View the Results
+### 5. View the Results
 
 If successful, you should see:
 
@@ -70,4 +70,3 @@ If successful, you should see:
   9 scenario passed, 0 failed, 0 skipped
   43 steps passed, 0 failed, 0 skipped, 0 undefined 
   ```
-  

@@ -17,7 +17,7 @@ These steps assume you're using Python 3.12+ and have `pip` available.
 
 ---
 
-### 🌀 1. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/QualityEngineering101/eqe-python-scripts.git

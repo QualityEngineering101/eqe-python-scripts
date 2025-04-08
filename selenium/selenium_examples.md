@@ -37,7 +37,7 @@ venv\Scripts\activate          # Windows
 
 ---
 
-### 📥 3. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r ../selenium_requirements.txt
@@ -45,7 +45,7 @@ pip install -r ../selenium_requirements.txt
 
 ---
 
-### ▶️ 4. Run the Project
+### 4. Run the Project
 
 ```bash
 python src/browser_tester.py
@@ -62,6 +62,6 @@ This script will:
 
 ---
 
-### 📈 5. View the Results
+### 5. View the Results
 
 Review the opened browser windows during execution. No logs or reports are generated—this is a visual demo.

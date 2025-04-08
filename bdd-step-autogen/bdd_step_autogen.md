@@ -19,7 +19,7 @@ Script that parses `.feature` files and auto-generates matching `*_steps.py` imp
 
 ---
 
-### 🌀 1. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/QualityEngineering101/eqe-python-scripts.git
@@ -28,7 +28,7 @@ cd eqe-python-scripts/bdd-step-autogen
 
 ---
 
-### 📦 2. (Optional) Create and Activate a Virtual Environment
+### 2. (Optional) Create and Activate a Virtual Environment
 
 ```bash
 python -m venv venv
@@ -38,7 +38,7 @@ venv\Scripts\activate          # Windows
 
 ---
 
-### 📥 3. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r ../bdd-step-autogen_requirements.txt
@@ -46,7 +46,7 @@ pip install -r ../bdd-step-autogen_requirements.txt
 
 ---
 
-### ▶️ 4. Run the Project
+### 4. Run the Project
 
 ```bash
 # Run the generator script
@@ -58,7 +58,7 @@ python stepgen.py
 
 ---
 
-### 📈 5. View the Results
+### 5. View the Results
 
 If successful, you should see:
 
