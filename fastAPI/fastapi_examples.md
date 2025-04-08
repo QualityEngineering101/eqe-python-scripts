@@ -63,7 +63,7 @@ These steps assume you're using Python 3.12+ and have `pip` available.
 
 ---
 
-### 🌀 1. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/QualityEngineering101/eqe-python-scripts.git
@@ -72,7 +72,7 @@ cd eqe-python-scripts/fastAPI
 
 ---
 
-### 📦 2. (Optional) Create and Activate a Virtual Environment
+### 2. (Optional) Create and Activate a Virtual Environment
 
 ```bash
 python -m venv venv
@@ -82,7 +82,7 @@ venv\Scripts\activate          # Windows
 
 ---
 
-### 📥 3. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r ../fastAPI_requirements.txt
@@ -90,7 +90,7 @@ pip install -r ../fastAPI_requirements.txt
 
 ---
 
-### ▶️ 4a. Run the Project (Locally)
+### 4a. Run the Project (Locally)
 
 **Run locally using uvicorn**
 
@@ -130,7 +130,7 @@ pytest tests/
 
 ---
 
-### 📈 5. View the Results
+### 5. View the Results
 
 You should see the following output when run successfully:
 
