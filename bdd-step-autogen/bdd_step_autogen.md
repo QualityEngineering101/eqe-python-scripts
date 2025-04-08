@@ -2,8 +2,13 @@
 
 Script that parses `.feature` files and auto-generates matching `*_steps.py` implementations for each scenario and step. Currently set up to work with a `features/login.feature` file and produce `features/steps/login_steps.py`.
 
-  `**Dependencies** Python>=3.9
+## Dependencies
+
+  ` Python>=3.9, behave==1.2.6, selenium=4.29.0, webdriver-manager=4.0.2
   `
+  Note:
+  Requires [Google Chrome](https://www.google.com/chrome/), [Mozilla Firefox](https://www.mozilla.org/firefox/new/), and [Microsoft Edge](https://www.microsoft.com/edge) to be installed on your machine.  
+  WebDrivers are automatically handled by `webdriver-manager`, but the browsers themselves must be installed for the scripts to run correctly.
 
 ## Features
 
