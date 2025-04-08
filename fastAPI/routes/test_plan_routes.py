@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from database import get_db
-import models
+from app_db import get_db
+import app_models
 import schemas
 import crud
 
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/test_plans", tags=["TestPlans"])
 
 @router.get("/", response_model=list[schemas.TestPlanResponse])
 def get_all_test_plans(db: Session = Depends(get_db)):
-    test_plans = db.query(models.TestPlan).all()
+    test_plans = db.query(app_models.TestPlan).all()
     if not test_plans:
         raise HTTPException(status_code=404, detail="No test plans found")
     return test_plans
@@ -20,7 +20,7 @@ def get_all_test_plans(db: Session = Depends(get_db)):
 @router.get("/{test_plan_id}", response_model=schemas.TestPlanResponse)
 def get_test_plan_by_id(test_plan_id: int, db: Session = Depends(get_db)):
     test_plan = (
-        db.query(models.TestPlan).filter(models.TestPlan.id == test_plan_id).first()
+        db.query(app_models.TestPlan).filter(app_models.TestPlan.id == test_plan_id).first()
     )
     if not test_plan:
         raise HTTPException(status_code=404, detail="Test Plan not found")

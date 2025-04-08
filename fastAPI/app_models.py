@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, TIMESTAMP, Enum, func, ForeignKey, Table
 from sqlalchemy.orm import relationship
-from database import Base
+from app_db import AppBase as Base
 
 
 class Product(Base):

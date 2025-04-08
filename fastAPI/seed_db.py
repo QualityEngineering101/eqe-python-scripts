@@ -1,6 +1,6 @@
-import models
-from database import engine, SessionLocal
-from models import TestSuite, Product, TestPlan
+import app_models
+from app_db import engine, SessionLocal
+from app_models import TestSuite, Product, TestPlan
 from sqlalchemy.sql import text
 
 def clear_database(db: SessionLocal):
