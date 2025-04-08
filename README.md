@@ -2,8 +2,6 @@
 
 ## Project Details
 
-This project provides examples of using python with existing packages to accelerate learning or implementation of automation scripts by quality engineers, automation engineers, or quality assurance analysts.
-
 This repository showcases practical, real-world Python automation examples for Quality Engineers, spanning UI testing, BDD frameworks, API validation, database operations, and DevOps integration. The goals is to accelerate learning or implementation of automation scripts by quality engineers, automation engineers, or quality assurance analysts.
 
 Feel free to expand and contribute to this library of examples!
