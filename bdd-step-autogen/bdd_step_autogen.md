@@ -6,9 +6,8 @@ Script that parses `.feature` files and auto-generates matching `*_steps.py` imp
 
   ` Python>=3.9, behave==1.2.6, selenium=4.29.0, webdriver-manager=4.0.2
   `
-  Note:
-  Requires [Google Chrome](https://www.google.com/chrome/), [Mozilla Firefox](https://www.mozilla.org/firefox/new/), and [Microsoft Edge](https://www.microsoft.com/edge) to be installed on your machine.  
-  WebDrivers are automatically handled by `webdriver-manager`, but the browsers themselves must be installed for the scripts to run correctly.
+  <br><br>Note:
+  Requires [Google Chrome](https://www.google.com/chrome/), [Mozilla Firefox](https://www.mozilla.org/firefox/new/), and [Microsoft Edge](https://www.microsoft.com/edge) to be installed on your machine. WebDrivers are automatically handled by `webdriver-manager`, but the browsers themselves must be installed for the scripts to run correctly.
 
 ## Features
 
