@@ -5,11 +5,11 @@ Script that parses `.feature` files and auto-generates matching `*_steps.py` imp
   `**Dependencies** Python>=3.9
   `
 
-  **Features**
+## Features
 
 * [stepgen.py](https://github.com/QualityEngineering101/eqe-python-scripts/blob/main/bdd-step-autogen/stepgen.py) - Scans feature files for BDD steps (Given/When/Then), generates structured and commented Python step definitions in the appropriate `steps/` directory, skips duplicates, and supports incremental regeneration.
 
-  **How to clone and run**
+## How to clone and run
 
  These steps assume you're using Python 3.12+ and have `pip` available.
 
