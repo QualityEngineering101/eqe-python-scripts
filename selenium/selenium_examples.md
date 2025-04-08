@@ -2,7 +2,7 @@
 
 Automation scripts that create Selenium webdrivers, navigate to websites, finds or interacts with elements on the page.`QEWebDriverHelper.py` is a lightweight utility that standardizes browser setup for Selenium tests. It supports launching Chrome, Edge, and Firefox with simplified configuration for URL, browser type, and mode (headed/headless).
 
-<span style="color:red"><strong>Note:</strong> This will only work sometimes since Amazon doesn't allow repeated automation scripts to run against their site. This script does implement a helper to show how that might work. However, this script is going to be rewritten to get change how it works and "come with" its own web server so we can hard code some functional website pages</span>
+<font color="red"><strong>Note:</strong> This will only work sometimes since Amazon doesn't allow repeated automation scripts to run against their site. This script does implement a helper to show how that might work. However, this script is going to be rewritten to get change how it works and "come with" its own web server so we can hard code some functional website pages</font>
 
   `**Dependencies**: Python>=3.9, selenium=4.29.0, webdriver-manager=4.0.2
   `
