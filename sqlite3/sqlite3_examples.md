@@ -26,7 +26,7 @@ cd eqe-python-scripts/sqlite3
 
 ---
 
-### 📦 2. (Optional) Create and Activate a Virtual Environment
+### 2. (Optional) Create and Activate a Virtual Environment
 
 ```bash
 python -m venv venv
@@ -36,7 +36,7 @@ venv\Scripts\activate          # Windows
 
 ---
 
-### 📥 3. Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r ../sqlite3_requirements.txt
@@ -44,7 +44,7 @@ pip install -r ../sqlite3_requirements.txt
 
 ---
 
-### ▶️ 4. Run the Project
+### 4. Run the Project
 
 ```bash
 python extract_and_compare.py
@@ -52,7 +52,7 @@ python extract_and_compare.py
 
 ---
 
-### 📈 5. View the Results
+### 5. View the Results
 
 * Run it the first time and you should get a list of database differences since your baseline would not have yet been established.
 * Run it a second time and you should get confirmation that there are no differences as noted in this screenshot:
